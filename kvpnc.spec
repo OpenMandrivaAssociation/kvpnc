@@ -1,5 +1,5 @@
 %define name    kvpnc
-%define version 0.8.8
+%define version 0.8.9
 %define rel     1
 %define release %mkrel %rel
 %define Summary KDE frontend to various vpn clients
@@ -63,10 +63,6 @@ rm -rf %{buildroot}
 install -d $RPM_BUILD_ROOT%{_menudir}
 kdedesktop2mdkmenu.pl %{name} "Internet/Remote Access" $RPM_BUILD_ROOT%{_datadir}/applnk/kvpnc.desktop $RPM_BUILD_ROOT%{_menudir}/%{name}
 
-#install -D -m 644 %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}.png %{buildroot}%{_liconsdir}/%{name}.png
-#install -D -m 644 %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}.png %{buildroot}%{_iconsdir}/%{name}.png
-#install -D -m 644 %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png %{buildroot}%{_miconsdir}/%{name}.png
-
 %find_lang %{name}
 
 #mkdir -p $RPM_BUILD_ROOT%{_sbindir}
@@ -103,7 +99,6 @@ rm -rf %buildroot
 
 %files -f %{name}.lang
 %defattr(0755,root,root,0755)
-#%{_sbindir}/%{name}
 %{_bindir}/%{name}
 %defattr(0644,root,root,0755)
 %{_menudir}/%{name}
@@ -118,9 +113,6 @@ rm -rf %buildroot
 %{_datadir}/apps/kvpnc/icons/*/*/actions/*.png
 %{_datadir}/apps/kvpnc/icons/*/*/apps/*.png
 %{_datadir}/apps/kvpnc/newprofilewizard.png
-#%{_miconsdir}/%{name}.png
-#%{_iconsdir}/%{name}.png
-#%{_liconsdir}/%{name}.png
 %config(noreplace) %{_sysconfdir}/pam.d/%{name}
 #%config(noreplace) %{_sysconfdir}/security/console.apps/%{name}
 %doc %_docdir/HTML/*/%{name}/*
