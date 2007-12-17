@@ -17,7 +17,6 @@ Group: 			Graphical desktop/KDE
 Source: 		http://download.gna.org/kvpnc/kvpnc-%{version}.tar.bz2
 URL: 			http://home.gna.org/kvpnc/
 
-BuildRoot: 		%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: 	kdelibs-devel
 BuildRequires:  libgcrypt-devel
 Requires: 		usermode-consoleonly
