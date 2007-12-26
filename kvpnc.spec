@@ -1,5 +1,5 @@
 %define name    kvpnc
-%define version 0.8.9
+%define version 0.9.0
 %define rel     1
 %define release %mkrel %rel
 %define Summary KDE frontend to various vpn clients
@@ -11,16 +11,15 @@ Summary:        %{Summary}
 Name:           %{name}
 Version:        %{version}
 Release:        %{release}
-
-License: 		GPL
-Group: 			Graphical desktop/KDE
-Source: 		http://download.gna.org/kvpnc/kvpnc-%{version}.tar.bz2
-URL: 			http://home.gna.org/kvpnc/
-
+License: 	GPLv2+
+Group: 		Graphical desktop/KDE
+Source: 	http://download.gna.org/kvpnc/kvpnc-%{version}.tar.bz2
+URL: 		http://home.gna.org/kvpnc/en/index.html
+BuildRequires:	desktop-file-utils
 BuildRequires: 	kdelibs-devel
 BuildRequires:  libgcrypt-devel
-Requires: 		usermode-consoleonly
-Requires: 		kvpnc-backend
+Requires: 	usermode-consoleonly
+Requires: 	kvpnc-backend
 
 
 %description
@@ -36,7 +35,7 @@ for Linux 2.6.x and *BSD.
 
 %build
 
-%configure --disable-rpath \
+%configure2_5x --disable-rpath \
 %if %use_enable_final
 			--enable-final \
 %else		
@@ -55,17 +54,13 @@ for Linux 2.6.x and *BSD.
 
 %install
 rm -rf %{buildroot}
-%makeinstall
+%makeinstall_std
 
-# Menu
+desktop-file-install --delete-original --vendor='' \
+	--dir %buildroot%_datadir/applications/kde \
+	%buildroot%_datadir/applnk/*.desktop
 
-install -d $RPM_BUILD_ROOT%{_menudir}
-kdedesktop2mdkmenu.pl %{name} "Internet/Remote Access" $RPM_BUILD_ROOT%{_datadir}/applnk/kvpnc.desktop $RPM_BUILD_ROOT%{_menudir}/%{name}
-
-%find_lang %{name}
-
-#mkdir -p $RPM_BUILD_ROOT%{_sbindir}
-#mv $RPM_BUILD_ROOT%{_bindir}/%{name} $RPM_BUILD_ROOT%{_sbindir}/%{name}
+%find_lang %{name} --with-html
 
 # Stolen from guarddog spec
 ### consolehelper entry
@@ -99,27 +94,12 @@ rm -rf %buildroot
 %files -f %{name}.lang
 %defattr(0755,root,root,0755)
 %{_bindir}/%{name}
-%defattr(0644,root,root,0755)
-%{_menudir}/%{name}
-%{_datadir}/applnk/kvpnc.desktop
-
-%dir %{_datadir}/apps/kvpnc/
-%{_datadir}/apps/kvpnc/eventsrc
-%{_datadir}/apps/kvpnc/kvpncui.rc
-%{_datadir}/apps/kvpnc/ping_check.sh
-
+%{_datadir}/applications/kde/kvpnc.desktop
+%{_datadir}/apps/kvpnc
 %{_datadir}/icons/*/*/apps/*.png
-%{_datadir}/apps/kvpnc/icons/*/*/actions/*.png
-%{_datadir}/apps/kvpnc/icons/*/*/apps/*.png
-%{_datadir}/apps/kvpnc/newprofilewizard.png
 %config(noreplace) %{_sysconfdir}/pam.d/%{name}
 #%config(noreplace) %{_sysconfdir}/security/console.apps/%{name}
-%doc %_docdir/HTML/*/%{name}/*
-%doc %_docdir/HTML/%{name}/*.txt
-%doc %_docdir/HTML/kvpnc/update_handbook.sh
-%doc %_docdir/HTML/kvpnc/README.handbook
-%doc %_docdir/HTML/kvpnc/README.smartcard
-
+%_datadir/doc/HTML/kvpnc
 %_datadir/apps/kvpnc/ovpn.protocol
 %_datadir/apps/kvpnc/pcf.protocol
 
