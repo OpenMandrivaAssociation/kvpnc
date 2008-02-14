@@ -13,6 +13,7 @@ Version:        %{version}
 Release:        %{release}
 License: 	GPLv2+
 Group: 		Graphical desktop/KDE
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source: 	http://download.gna.org/kvpnc/kvpnc-%{version}.tar.bz2
 URL: 		http://home.gna.org/kvpnc/en/index.html
 BuildRequires:	desktop-file-utils
