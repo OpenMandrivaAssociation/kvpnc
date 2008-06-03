@@ -1,11 +1,9 @@
 %define name    kvpnc
-%define version 0.9.0
+%define version 0.9.1
+%define betaver rc1
 %define rel     1
-%define release %mkrel %rel
+%define release %mkrel -c %betaver %rel
 %define Summary KDE frontend to various vpn clients
-
-%define unstable 1
-%define use_enable_final 1
 
 Summary:        %{Summary}
 Name:           %{name}
@@ -14,10 +12,11 @@ Release:        %{release}
 License: 	GPLv2+
 Group: 		Graphical desktop/KDE
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-Source: 	http://download.gna.org/kvpnc/kvpnc-%{version}.tar.bz2
+Source: 	http://download.gna.org/kvpnc/kvpnc-%{version}-%{betaver}-kde4.tar.bz2
+Patch0:		kvpnc-0.9.1-rc1-kde4-skip-invalid-files.patch
 URL: 		http://home.gna.org/kvpnc/en/index.html
 BuildRequires:	desktop-file-utils
-BuildRequires: 	kdelibs-devel
+BuildRequires: 	kdelibs4-devel
 BuildRequires:  libgcrypt-devel
 Requires: 	usermode-consoleonly
 Requires: 	kvpnc-backend
@@ -32,34 +31,18 @@ is a IPSec client for Linux 2.4.x and racoon is a IPSec client
 for Linux 2.6.x and *BSD.
 
 %prep
-%setup -q -n kvpnc-%{version}
+%setup -q -n kvpnc-%{version}-%{betaver}-kde4
+%patch0 -p0
 
 %build
-
-%configure2_5x --disable-rpath \
-%if %use_enable_final
-			--enable-final \
-%else		
-			--disable-final \
-%endif
-%if "%{_lib}" != "lib"
-    --enable-libsuffix="%(A=%{_lib}; echo ${A/lib/})" \
-%endif
-%if %unstable
-					--enable-debug=full 
-%else
-					--disable-debug 
-%endif
-
+%cmake_kde4
 %make
 
 %install
 rm -rf %{buildroot}
+cd build
 %makeinstall_std
-
-desktop-file-install --delete-original --vendor='' \
-	--dir %buildroot%_datadir/applications/kde \
-	%buildroot%_datadir/applnk/*.desktop
+cd -
 
 %find_lang %{name} --with-html
 
@@ -94,14 +77,8 @@ rm -rf %buildroot
 
 %files -f %{name}.lang
 %defattr(0755,root,root,0755)
-%{_bindir}/%{name}
-%{_datadir}/applications/kde/kvpnc.desktop
-%{_datadir}/apps/kvpnc
-%{_datadir}/icons/*/*/apps/*.png
+%{_kde_bindir}/%{name}
+%{_kde_datadir}/applications/kde4/kvpnc.desktop
+%{_kde_datadir}/apps/kvpnc
+%{_kde_datadir}/icons/*/*/apps/*.png
 %config(noreplace) %{_sysconfdir}/pam.d/%{name}
-#%config(noreplace) %{_sysconfdir}/security/console.apps/%{name}
-%_datadir/doc/HTML/kvpnc
-%_datadir/apps/kvpnc/ovpn.protocol
-%_datadir/apps/kvpnc/pcf.protocol
-
-
