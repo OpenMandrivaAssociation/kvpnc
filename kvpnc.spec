@@ -1,7 +1,7 @@
 %define name    kvpnc
 %define version 0.9.1
 %define betaver rc1
-%define rel     1
+%define rel     2
 %define release %mkrel -c %betaver %rel
 %define Summary KDE frontend to various vpn clients
 
