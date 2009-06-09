@@ -27,6 +27,16 @@ as client for the cisco3000 VPN Concentrator, FreeS/WAN (OpenS/WAN)
 is a IPSec client for Linux 2.4.x and racoon is a IPSec client 
 for Linux 2.6.x and *BSD.
 
+%files -f %{name}.lang
+%defattr(0755,root,root,0755)
+%{_kde_bindir}/%{name}
+%{_kde_datadir}/applications/kde4/kvpnc.desktop
+%{_kde_datadir}/apps/kvpnc
+%{_kde_datadir}/icons/*/*/apps/*.png
+%config(noreplace) %{_sysconfdir}/pam.d/%{name}
+
+#--------------------------------------------------------------------
+
 %prep
 %setup -q -n kvpnc-%{version}-kde4
 
@@ -51,11 +61,3 @@ EOF
 
 %clean
 rm -rf %buildroot
-
-%files -f %{name}.lang
-%defattr(0755,root,root,0755)
-%{_kde_bindir}/%{name}
-%{_kde_datadir}/applications/kde4/kvpnc.desktop
-%{_kde_datadir}/apps/kvpnc
-%{_kde_datadir}/icons/*/*/apps/*.png
-%config(noreplace) %{_sysconfdir}/pam.d/%{name}
