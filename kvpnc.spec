@@ -1,6 +1,6 @@
 %define name    kvpnc
 %define version 0.9.3
-%define rel     1
+%define rel     2
 %define release %mkrel %rel
 %define Summary KDE frontend to various vpn clients
 
@@ -12,6 +12,7 @@ License: 	GPLv2+
 Group: 		Graphical desktop/KDE
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source: 	http://download.gna.org/kvpnc/kvpnc-%{version}-kde4.tar.bz2
+Source1:	http://download.gna.org/kvpnc/kvpnc-%{version}-kde4-locale.tar.bz2
 URL: 		http://home.gna.org/kvpnc/en/index.html
 BuildRequires:	desktop-file-utils
 BuildRequires: 	kdelibs4-devel
@@ -38,15 +39,25 @@ for Linux 2.6.x and *BSD.
 #--------------------------------------------------------------------
 
 %prep
-%setup -q -n kvpnc-%{version}-kde4
+%setup -q -n kvpnc-%{version}-kde4 -a1
 
 %build
 %cmake_kde4
 %make
+cd ..
+
+pushd kvpnc-%{version}-kde4-locale
+%cmake_kde4
+%make
+popd
 
 %install
 rm -rf %{buildroot}
 %makeinstall_std -C build
+
+pushd kvpnc-%{version}-kde4-locale
+%makeinstall_std -C build
+popd
 
 %find_lang %{name} --with-html
 
