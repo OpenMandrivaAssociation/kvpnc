@@ -1,6 +1,6 @@
 %define name    kvpnc
-%define version 0.9.3
-%define rel     2
+%define version 0.9.5
+%define rel     1
 %define release %mkrel %rel
 %define Summary KDE frontend to various vpn clients
 
@@ -34,6 +34,7 @@ for Linux 2.6.x and *BSD.
 %{_kde_datadir}/applications/kde4/kvpnc.desktop
 %{_kde_datadir}/apps/kvpnc
 %{_kde_datadir}/icons/*/*/apps/*.png
+%{_kde_datadir}/icons/*/*/actions/*.png
 %config(noreplace) %{_sysconfdir}/pam.d/%{name}
 
 #--------------------------------------------------------------------
