@@ -1,6 +1,6 @@
 %define name    kvpnc
 %define version 0.9.6
-%define rel     1
+%define rel     2
 %define release %mkrel %rel
 %define Summary KDE frontend to various vpn clients
 
@@ -29,7 +29,7 @@ is a IPSec client for Linux 2.4.x and racoon is a IPSec client
 for Linux 2.6.x and *BSD.
 
 %files -f %{name}.lang
-%defattr(0755,root,root,0755)
+%defattr(-,root,root,-)
 %{_kde_bindir}/%{name}
 %{_kde_datadir}/applications/kde4/kvpnc.desktop
 %{_kde_datadir}/apps/kvpnc
