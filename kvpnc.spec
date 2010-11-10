@@ -1,6 +1,6 @@
 %define name    kvpnc
 %define version 0.9.6
-%define rel     2
+%define rel     3
 %define release %mkrel %rel
 %define Summary KDE frontend to various vpn clients
 
@@ -14,6 +14,8 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source: 	http://download.gna.org/kvpnc/kvpnc-%{version}-kde4.tar.bz2
 Source1:	http://download.gna.org/kvpnc/kvpnc-%{version}-kde4-locale.tar.bz2
 URL: 		http://home.gna.org/kvpnc/en/index.html
+#Remove the following patch when a new version above 0.9.6a is released.
+Patch0:         ping_check_fix_from_0.9.6a.diff
 BuildRequires:	desktop-file-utils
 BuildRequires: 	kdelibs4-devel
 BuildRequires:  libgcrypt-devel
@@ -41,6 +43,7 @@ for Linux 2.6.x and *BSD.
 
 %prep
 %setup -q -n kvpnc-%{version}-kde4 -a1
+%patch0 -p1
 
 %build
 %cmake_kde4
