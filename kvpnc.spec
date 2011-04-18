@@ -1,6 +1,6 @@
 %define name    kvpnc
 %define version 0.9.6
-%define rel     3
+%define rel     4
 %define release %mkrel %rel
 %define Summary KDE frontend to various vpn clients
 
@@ -8,19 +8,19 @@ Summary:        %{Summary}
 Name:           %{name}
 Version:        %{version}
 Release:        %{release}
-License: 	GPLv2+
-Group: 		Graphical desktop/KDE
+License:        GPLv2+
+Group:          Networking/Remote access
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-Source: 	http://download.gna.org/kvpnc/kvpnc-%{version}-kde4.tar.bz2
-Source1:	http://download.gna.org/kvpnc/kvpnc-%{version}-kde4-locale.tar.bz2
-URL: 		http://home.gna.org/kvpnc/en/index.html
+Source:         http://download.gna.org/kvpnc/kvpnc-%{version}-kde4.tar.bz2
+Source1:        http://download.gna.org/kvpnc/kvpnc-%{version}-kde4-locale.tar.bz2
+URL:            http://home.gna.org/kvpnc/en/index.html
 #Remove the following patch when a new version above 0.9.6a is released.
 Patch0:         ping_check_fix_from_0.9.6a.diff
-BuildRequires:	desktop-file-utils
-BuildRequires: 	kdelibs4-devel
+BuildRequires:  desktop-file-utils
+BuildRequires:  kdelibs4-devel
 BuildRequires:  libgcrypt-devel
-Requires: 	usermode-consoleonly
-Requires: 	kvpnc-backend
+Requires:       usermode-consoleonly
+Requires:       kvpnc-backend
 
 %description
 KVpnc is a KDE frontend for for various vpn clients.
@@ -69,7 +69,7 @@ popd
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/pam.d
 cat > $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/%{name} <<EOF
 auth       sufficient   pam_rootok.so
-auth       include	system-auth
+auth       include      system-auth
 session    optional     pam_xauth.so
 account    required     pam_permit.so
 EOF
