@@ -1,6 +1,6 @@
 %define name    kvpnc
-%define version 0.9.6
-%define rel     4
+%define version 0.9.6a
+%define rel     1
 %define release %mkrel %rel
 %define Summary KDE frontend to various vpn clients
 
@@ -10,12 +10,10 @@ Version:        %{version}
 Release:        %{release}
 License:        GPLv2+
 Group:          Networking/Remote access
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-Source:         http://download.gna.org/kvpnc/kvpnc-%{version}-kde4.tar.bz2
-Source1:        http://download.gna.org/kvpnc/kvpnc-%{version}-kde4-locale.tar.bz2
+Source0:        http://download.gna.org/kvpnc/kvpnc-%{version}-kde4.tar.bz2
 URL:            http://home.gna.org/kvpnc/en/index.html
-#Remove the following patch when a new version above 0.9.6a is released.
-Patch0:         ping_check_fix_from_0.9.6a.diff
+Patch0:		kvpnc-0.9.6a-gcc47.patch
+Patch1:		kvpnc-0.9.6a-scriptsec.patch
 BuildRequires:  desktop-file-utils
 BuildRequires:  kdelibs4-devel
 BuildRequires:  libgcrypt-devel
@@ -30,8 +28,7 @@ as client for the cisco3000 VPN Concentrator, FreeS/WAN (OpenS/WAN)
 is a IPSec client for Linux 2.4.x and racoon is a IPSec client 
 for Linux 2.6.x and *BSD.
 
-%files -f %{name}.lang
-%defattr(-,root,root,-)
+%files 
 %{_kde_bindir}/%{name}
 %{_kde_datadir}/applications/kde4/kvpnc.desktop
 %{_kde_datadir}/apps/kvpnc
@@ -42,37 +39,23 @@ for Linux 2.6.x and *BSD.
 #--------------------------------------------------------------------
 
 %prep
-%setup -q -n kvpnc-%{version}-kde4 -a1
+%setup -q -n kvpnc-%{version}-kde4
 %patch0 -p1
+%patch1 -p1
 
 %build
 %cmake_kde4
 %make
 cd ..
 
-pushd kvpnc-%{version}-kde4-locale
-%cmake_kde4
-%make
-popd
-
 %install
-rm -rf %{buildroot}
 %makeinstall_std -C build
-
-pushd kvpnc-%{version}-kde4-locale
-%makeinstall_std -C build
-popd
-
-%find_lang %{name} --with-html
 
 ### pam entry
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/pam.d
-cat > $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/%{name} <<EOF
+mkdir -p %{buildroot}%{_sysconfdir}/pam.d
+cat > %{buildroot}%{_sysconfdir}/pam.d/%{name} <<EOF
 auth       sufficient   pam_rootok.so
 auth       include      system-auth
 session    optional     pam_xauth.so
 account    required     pam_permit.so
 EOF
-
-%clean
-rm -rf %buildroot
