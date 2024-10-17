@@ -11,7 +11,7 @@ Release:        %{release}
 License:        GPLv2+
 Group:          Networking/Remote access
 Source0:        http://download.gna.org/kvpnc/kvpnc-%{version}-kde4.tar.bz2
-URL:            http://home.gna.org/kvpnc/en/index.html
+URL:            https://home.gna.org/kvpnc/en/index.html
 Patch0:		kvpnc-0.9.6a-gcc47.patch
 Patch1:		kvpnc-0.9.6a-scriptsec.patch
 BuildRequires:  desktop-file-utils
