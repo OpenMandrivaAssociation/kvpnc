@@ -14,6 +14,7 @@ Source0:        http://download.gna.org/kvpnc/kvpnc-%{version}-kde4.tar.bz2
 URL:            https://home.gna.org/kvpnc/en/index.html
 Patch0:		kvpnc-0.9.6a-gcc47.patch
 Patch1:		kvpnc-0.9.6a-scriptsec.patch
+BuildRequires:	make
 BuildRequires:  desktop-file-utils
 BuildRequires:  kdelibs4-devel
 BuildRequires:  libgcrypt-devel
